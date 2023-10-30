@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run tests
+      id: test
+      run: |
+        echo "Running tests..."
+        cat status
+        x=$(cat status)
+        if [[ "$x" = "true" ]];then
+          echo 'CHECKS_FAILED=true'>>$GITHUB_OUTPUT
+        else
+           echo 'CHECKS_FAILED=false'>>$GITHUB_OUTPUT
+        fi
+#    - name: Rollback on failure
+#      if: ${{ steps.test.outputs.CHECKS_FAILED == 'false' }}
+#      run: |
+#        echo "Rolling back the commit..."
+#        git config --global user.name "bot"
+#        git config --global user.email "you@example.com"
+#        git revert --no-edit HEAD
+#        git push origin HEAD

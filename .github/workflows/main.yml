@@ -20,8 +20,10 @@ jobs:
         x=$(cat status)
         if [[ "$x" = "true" ]];then
           echo 'CHECKS_FAILED=true'>>$GITHUB_OUTPUT
+          return 0
         else
            echo 'CHECKS_FAILED=false'>>$GITHUB_OUTPUT
+           return 1
         fi
 #    - name: Rollback on failure
 #      if: ${{ steps.test.outputs.CHECKS_FAILED == 'false' }}
